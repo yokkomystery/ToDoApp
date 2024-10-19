@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'task.dart';
 import 'task_list.dart';
 import 'filter_options.dart';
+import 'add_task_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -86,8 +87,15 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add task logic here
+        onPressed: () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddTaskScreen()),
+          );
+
+          if (result != null && result is Map<String, String>) {
+            _addTask(result['title']!, result['description']!);
+          }
         },
         tooltip: 'Add Task',
         child: const Icon(Icons.add),
